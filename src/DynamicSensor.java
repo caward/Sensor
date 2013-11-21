@@ -57,7 +57,7 @@ public class DynamicSensor
 		//Add T1 T2 and T5 to an ArrayList (insert if unique)
 		//insert T1 into a partialTargetList if there does not already exist a T1
 		//do same for all targets of the first sensor
-		
+		//git test
 		//Go to the second sensor and repeat
 		//After all targets are added to list, check to see if there is full cover
 		//Do this by comparing partialTargetList.size and targetList.size

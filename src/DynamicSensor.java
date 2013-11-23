@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+
 public class DynamicSensor
 {
 	static ArrayList<Target> targetList = new ArrayList<Target>();
 	static ArrayList<Sensor> sensorList = new ArrayList<Sensor>();
-	
+	static double[][] m;
 	/**
 	 * @param args
 	 */
@@ -29,26 +30,59 @@ public class DynamicSensor
 			e.printStackTrace();
 		}
 		
-		//create matrix
-		Sensor[][] m = new Sensor[targetList.size()][sensorList.size()];
-		
-		// Fill matrix
-		for(int i = 0; i<targetList.size();i++)
+//Begin Corey's guess		
+		int sList = sensorList.size();
+		int tList = targetList.size();
+		//create matrix with two additional columns and one additional row
+		m = new double[tList+1][sList+2];
+		//fill top row with 0
+		for(int col=1; col<=sList;col++)
 		{
-			for(int j = 0; j<sensorList.size();j++)
+			m[0][col]=0.0;
+		}
+		//fill first and last row with big numbers
+		for(int row=1; row<=tList;row++)
+		{
+			m[row][0]=1500.0;
+			m[row][sList+1]=1500.0;
+		}
+		
+		// Fill matrix with weights  
+		for(int row = 1; row<=tList;row++)
+		{
+			for(int col = 1; col<=sList;col++)
 			{
-				if(distance(targetList.get(i),sensorList.get(j)))
+				if(distance(targetList.get(row-1),sensorList.get(col-1)))
 				{
-					m[i][j] = sensorList.get(j);
+					m[row][col] = sensorList.get(col-1).cost;
 				}else
 				{
-					m[i][j] = null;
+					m[row][col] = 1500.0;// huge number that would never be chosen
 				}
 			}
 		}
 		
 		
+		for(int row = 1; row<=tList;row++)
+		{
+			for(int col = 1; col<=sList;col++)
+			{
+				if(m[row-1][col] != m[row][col])
+				{
+					m[row][col] = m[row][col] + min(row,col);//recurrence
+				}
+				
+			}
+		}
 		
+		double cost = 1500.0;
+		
+		for (int col = 1; col<=sList;col++)
+		{
+			cost = m[tList][col]<cost ? m[tList][col]:cost;
+		}
+		System.out.println(cost);
+////End Corey's guess		
 		
 		
 		
@@ -64,6 +98,18 @@ public class DynamicSensor
 				}
 			}
 		}
+	}
+	
+	//increments through the above row to find the min
+	public static double min(int row, int col)
+	{
+		double min = 16000.0;
+		for(int i = col-1; i<=sensorList.size();i++)
+		{
+			min= m[row-1][i]<min ? m[row-1][i]:min;
+			if(min==0.0){return 0.0;}
+		}
+		return min;
 	}
 	
 	public boolean isThereCover (ArrayList<Sensor> partialSensorList) {

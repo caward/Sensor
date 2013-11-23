@@ -29,6 +29,31 @@ public class DynamicSensor
 			e.printStackTrace();
 		}
 		
+		//create matrix
+		Sensor[][] m = new Sensor[targetList.size()][sensorList.size()];
+		
+		// Fill matrix
+		for(int i = 0; i<targetList.size();i++)
+		{
+			for(int j = 0; j<sensorList.size();j++)
+			{
+				if(distance(targetList.get(i),sensorList.get(j)))
+				{
+					m[i][j] = sensorList.get(j);
+				}else
+				{
+					m[i][j] = null;
+				}
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 		for(Sensor s:sensorList)
 		{
 			for(Target t:targetList)

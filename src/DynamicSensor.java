@@ -9,58 +9,63 @@ public class DynamicSensor
 {
 	static ArrayList<Target> targetList = new ArrayList<Target>();
 	static ArrayList<Sensor> sensorList = new ArrayList<Sensor>();
-	static double[][] m;
+	static double[][] m =new double[][]{
+		{1500.0, 0.0,    0.0, 0.0,    1500.0},
+		{1500.0, 1.0,    2.5, 1500.0, 1500.0},
+		{1500.0, 1.0,    2.5, 2.0,    1500.0},
+		{1500.0, 1.0, 2.5, 2.0,    1500.0}
+	};
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		File myFile = new File("Sensor.txt");
-		Scanner scan;
-		String line;
-		try {
-			scan = new Scanner(myFile);
-			while(scan.hasNext())
-			{
-				line=scan.nextLine();
-				parseLine(line);
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		File myFile = new File("Sensor.txt");
+//		Scanner scan;
+//		String line;
+//		try {
+//			scan = new Scanner(myFile);
+//			while(scan.hasNext())
+//			{
+//				line=scan.nextLine();
+//				parseLine(line);
+//			}
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 //Begin Corey's guess		
-		int sList = sensorList.size();
-		int tList = targetList.size();
-		//create matrix with two additional columns and one additional row
-		m = new double[tList+1][sList+2];
-		//fill top row with 0
-		for(int col=1; col<=sList;col++)
-		{
-			m[0][col]=0.0;
-		}
-		//fill first and last row with big numbers
-		for(int row=1; row<=tList;row++)
-		{
-			m[row][0]=1500.0;
-			m[row][sList+1]=1500.0;
-		}
-		
-		// Fill matrix with weights  
-		for(int row = 1; row<=tList;row++)
-		{
-			for(int col = 1; col<=sList;col++)
-			{
-				if(distance(targetList.get(row-1),sensorList.get(col-1)))
-				{
-					m[row][col] = sensorList.get(col-1).cost;
-				}else
-				{
-					m[row][col] = 1500.0;// huge number that would never be chosen
-				}
-			}
-		}
+		int sList = 3;//sensorList.size();
+		int tList = 3;//targetList.size();
+//		//create matrix with two additional columns and one additional row
+//		m = new double[tList+1][sList+2];
+//		//fill top row with 0
+//		for(int col=1; col<=sList;col++)
+//		{
+//			m[0][col]=0.0;
+//		}
+//		//fill first and last row with big numbers
+//		for(int row=1; row<=tList;row++)
+//		{
+//			m[row][0]=1500.0;
+//			m[row][sList+1]=1500.0;
+//		}
+//		
+//		// Fill matrix with weights  
+//		for(int row = 1; row<=tList;row++)
+//		{
+//			for(int col = 1; col<=sList;col++)
+//			{
+//				if(distance(targetList.get(row-1),sensorList.get(col-1)))
+//				{
+//					m[row][col] = sensorList.get(col-1).cost;
+//				}else
+//				{
+//					m[row][col] = 1500.0;// huge number that would never be chosen
+//				}
+//			}
+//		}
 		
 		
 		for(int row = 1; row<=tList;row++)
@@ -104,7 +109,7 @@ public class DynamicSensor
 	public static double min(int row, int col)
 	{
 		double min = 16000.0;
-		for(int i = col-1; i<=sensorList.size();i++)
+		for(int i = 1; i<=3;i++)//col-1
 		{
 			min= m[row-1][i]<min ? m[row-1][i]:min;
 			if(min==0.0){return 0.0;}

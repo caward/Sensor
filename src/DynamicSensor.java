@@ -28,7 +28,11 @@ public class DynamicSensor
 		try {
 			scan = new Scanner(myFile);
 			while(scan.hasNext())
+<<<<<<< HEAD
 			{
+=======
+		{
+>>>>>>> 4e5fe3c55eb387a419f21b7e1d6c550b60c62152
 				line=scan.nextLine();
 				parseLine(line);
 			}
@@ -48,7 +52,13 @@ public class DynamicSensor
 				}
 			}
 		}
+<<<<<<< HEAD
 		
+=======
+		if (!isThereCover(sensorList)) {
+			System.out.println("THE INPUT IS BAAAD");
+		}
+>>>>>>> 4e5fe3c55eb387a419f21b7e1d6c550b60c62152
 		
 //Begin Corey's guess		
 		int sList = sensorList.size();
@@ -117,10 +127,16 @@ public class DynamicSensor
 	}
 	
 	//increments through the above row to find the minimum value
+<<<<<<< HEAD
 	public static double min(int row)
 	{
 		double min = 16000.0;
 		for(int i = 1; i<=sensorList.size();i++)//iterates through columns here
+=======
+	public static double min(int row) {
+		double min = 16000.0;
+		for(int i = 1; i <= sensorList.size();i++)//col-1 iterates through columns here
+>>>>>>> 4e5fe3c55eb387a419f21b7e1d6c550b60c62152
 		{
 			min= m[row-1][i] < min ? m[row-1][i]: min;
 			if(min == 0.0) {
@@ -137,7 +153,11 @@ public class DynamicSensor
 		//will recurse until matching index is found in previous row. Could also be done with a for loop
 		int j;
 		for (j = 1; j <= sensorList.size(); j++ ) {
+<<<<<<< HEAD
 			if (m[row][col] == m[row - 1][j] + sensorList.get(col-1).getCost() ) { //this means the proper one was found
+=======
+			if (m[row][col] == m[row - 1][j] + sensorList.get(col - 1).getCost() ) { //this means the proper one was found
+>>>>>>> 4e5fe3c55eb387a419f21b7e1d6c550b60c62152
 				//check to see if this sensor is already in the sublist
 				if (!sensorSubList.contains(sensorList.get(col-1))) {
 					sensorSubList.add(sensorList.get(col-1));

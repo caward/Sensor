@@ -152,23 +152,12 @@ public class DynamicSensor
 				System.out.println("YOU MESSED UP BRO"); //just an error catcher, don't really need these two lines of code
 				return;
 			
-		}
-		
-		
-		/*if (m[row][col] == m[row - 1][col] + sensorList.get(col-1).getCost() ) { //this means the proper one was found
-			//check to see if this sensor is already in the sublist
-			if (!sensorSubList.contains(sensorList.get(col-1))) {
-				sensorSubList.add(sensorList.get(col));
 			}
-			printSensorSet (row -1, col); //this row's (target's) proper sensor was found. 
-		}*/
 		
-		//else if (col == sensorList.size()) {//means we are looking at last column, and correct index wasn't already found
-			//System.out.println("YOU MESSED UP BRO"); //just an error catcher, don't really need these two lines of code
-			//return sensorSubList;
+		
+		
 		}
-		//else printSensorSet(row, col + 1); //repeat on the next index over in the previous row
-		//return null;
+		
 	}
 	
 	

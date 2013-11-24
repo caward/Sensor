@@ -195,7 +195,7 @@ public class DynamicSensor
 		
 		String delims = "[ ]+";
 		String[] tokens = line.split(delims);
-		if(tokens[0].equals("1"))
+		if(tokens[0].equals("2"))
 		{
 			Sensor sensor = new Sensor();
 			sensor.x = Double.parseDouble(tokens[1]);
@@ -203,7 +203,7 @@ public class DynamicSensor
 			sensor.cost = Double.parseDouble(tokens[3]);
 			sensorList.add(sensor);
 		}
-		else if(tokens[0].equals("2"))
+		else if(tokens[0].equals("1"))
 		{
 			Target target = new Target();
 			target.x = Double.parseDouble(tokens[1]);

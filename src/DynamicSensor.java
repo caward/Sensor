@@ -11,8 +11,8 @@ public class DynamicSensor
 	static ArrayList<Sensor> sensorList = new ArrayList<Sensor>();
 	static double[][] m =new double[][]{
 		{1500.0, 0.0,    0.0, 0.0,    1500.0},
-		{1500.0, 1.0,    2.5, 1500.0, 1500.0},
-		{1500.0, 1.0,    2.5, 2.0,    1500.0},
+		{1500.0, 1.0,    .9, 1500.0, 1500.0},
+		{1500.0, 1.0,    .9, 2.0,    1500.0},
 		{1500.0, 1500.0, 1500.0, 2.0,    1500.0}
 	};
 	/**

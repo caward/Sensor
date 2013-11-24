@@ -129,7 +129,7 @@ public class DynamicSensor
 	}
 	public static void printSensorSet (int row, int col) { //we call this function using the last row, first column 
 		if (row == 0) { //in order to ignore first row
-			//return sensorSubList;
+			return sensorSubList;
 		}
 		//will recurse until matching index is found in previous row. Could also be done with a for loop
 		if (m[row][col] == m[row - 1][col] + sensorList.get(col).getCost() ) { //this means the proper one was found

@@ -11,12 +11,8 @@ public class DynamicSensor
 	static ArrayList<Sensor> sensorList = new ArrayList<Sensor>();
 	static ArrayList<Sensor> sensorSubList = new ArrayList<Sensor>();
 	double finalMinCost;
-	static double[][] m =new double[][]{
-		{1500.0, 0.0,    0.0, 0.0,    1500.0},
-		{1500.0, 1.0,    2.5, 1500.0, 1500.0},
-		{1500.0, 1.0,    2.5, 2.0,    1500.0},
-		{1500.0, 1500.0, 1500.0, 2.0,    1500.0}
-	};
+	static double[][] m;
+	
 	/**
 	 * @param args
 	 */
@@ -54,8 +50,7 @@ public class DynamicSensor
 			System.out.println("THE INPUT IS BAAAD");
 		}
 
-		
-//Begin Corey's guess		
+				
 		int sList = sensorList.size();
 		int tList = targetList.size();
 		//create matrix with two additional columns and one additional row to account for edge cases
@@ -96,8 +91,7 @@ public class DynamicSensor
 				{
 					//Adds minimum of previous row to this cell
 					m[row][col] = m[row][col] + min(row);//recurrence
-				}
-				
+				}				
 			}
 		}
 		//Iterates through last row to find minimum cost
@@ -105,13 +99,12 @@ public class DynamicSensor
 		int finalCol = 1;
 		for (int col = 1; col <= sList; col++)
 		{
-			//cost = m[tList][col]<cost ? m[tList][col]:cost;
+			
 			if (m[tList][col] < cost) {
 				cost = m[tList][col];
 				finalCol = col; //keeps track of the column as well in order to use in printSensorList
 			}
-		}
-////End Corey's guess		
+		}	
 		
 		System.out.println("The minimum cost is: " + cost);
 		printSensorSet(targetList.size(), finalCol); 
@@ -122,8 +115,6 @@ public class DynamicSensor
 	}
 	
 	//increments through the above row to find the minimum value
-
-
 	public static double min(int row) {
 		double min = 16000.0;
 		for(int i = 1; i <= sensorList.size();i++)//iterates through columns here
@@ -143,8 +134,8 @@ public class DynamicSensor
 		}
 		//will recurse until matching index is found in previous row. Could also be done with a for loop
 		int j;
-		for (j = 1; j <= sensorList.size(); j++ ) {
-
+		for (j = 1; j <= sensorList.size(); j++ ) 
+		{
 			if (m[row][col] == m[row - 1][j] + sensorList.get(col-1).getCost() ) { //this means the proper one was found
 
 				//check to see if this sensor is already in the sublist

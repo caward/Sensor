@@ -9,6 +9,8 @@ public class DynamicSensor
 {
 	static ArrayList<Target> targetList = new ArrayList<Target>();
 	static ArrayList<Sensor> sensorList = new ArrayList<Sensor>();
+	static ArrayList<Sensor> sensorSubList = new ArrayList<Sensor>();
+	double finalMinCost;
 	static double[][] m =new double[][]{
 		{1500.0, 0.0,    0.0, 0.0,    1500.0},
 		{1500.0, 1.0,    2.5, 1500.0, 1500.0},
@@ -35,6 +37,17 @@ public class DynamicSensor
 //			e.printStackTrace();
 //		}
 //		
+		
+		for(Sensor s:sensorList)
+		{
+			for(Target t:targetList)
+			{
+				if(distance(t,s))
+				{
+					s.targets.add(t);
+				}
+			}
+		}
 //Begin Corey's guess		
 		int sList = 3;//sensorList.size();
 		int tList = 3;//targetList.size();
@@ -48,8 +61,8 @@ public class DynamicSensor
 //		//fill first and last row with big numbers
 //		for(int row=1; row<=tList;row++)
 //		{
-//			m[row][0]=1500.0;
-//			m[row][sList+1]=1500.0;
+//			m[row][0]=15000.0;
+//			m[row][sList+1]=15000.0;
 //		}
 //		
 //		// Fill matrix with weights  
@@ -68,11 +81,11 @@ public class DynamicSensor
 //		}
 		
 		
-		for(int row = 1; row<=tList;row++)
+		for(int row = 1; row <= tList ;row++)
 		{
 			for(int col = 1; col<=sList;col++)
 			{
-				if(m[row-1][col] != m[row][col])
+				if(m[row-1][col] != m[row][col]) // same as if (S1 covers only T1 or T2)
 				{
 					//Adds minimum of previous row to this cell
 					m[row][col] = m[row][col] + min(row,col);//recurrence
@@ -82,41 +95,58 @@ public class DynamicSensor
 		}
 		//Iterates through last row to find minimum cost
 		double cost = 1500.0;
-		
-		for (int col = 1; col<=sList;col++)
+		int finalCol = 1;
+		for (int col = 1; col <= sList; col++)
 		{
-			cost = m[tList][col]<cost ? m[tList][col]:cost;
-		}
-		System.out.println(cost);
-////End Corey's guess		
-		
-		
-		
-		
-		
-		for(Sensor s:sensorList)
-		{
-			for(Target t:targetList)
-			{
-				if(distance(t,s))
-				{
-					s.targets.add(t);
-				}
+			//cost = m[tList][col]<cost ? m[tList][col]:cost;
+			if (m[tList][col] < cost) {
+				cost = m[tList][col];
+				finalCol = col; //keeps track of the column as well in order to use in printSensorList
 			}
 		}
+////End Corey's guess		
+		
+		System.out.println("The minimum cost is: " + cost);
+		printSensorSet(targetList.size() + 1, finalCol); 
+		for(Sensor s:sensorSubList) {
+			System.out.print("S" + s);
+		}
+		
 	}
 	
 	//increments through the above row to find the minimum value
 	public static double min(int row, int col)
 	{
 		double min = 16000.0;
-		for(int i = 1; i<=3;i++)//col-1
+		for(int i = 1; i<=3;i++)//col-1 iterates through columns here
 		{
-			min= m[row-1][i]<min ? m[row-1][i]:min;
-			if(min==0.0){return 0.0;}
+			min= m[row-1][i] < min ? m[row-1][i]: min;
+			if(min == 0.0) {
+				return 0.0;
+			}
 		}
 		return min;
 	}
+	public static void printSensorSet (int row, int col) { //we call this function using the last row, first column 
+		if (row == 0) { //in order to ignore first row
+			//return sensorSubList;
+		}
+		//will recurse until matching index is found in previous row. Could also be done with a for loop
+		if (m[row][col] == m[row - 1][col] + sensorList.get(col).getCost() ) { //this means the proper one was found
+			//check to see if this sensor is already in the sublist
+			if (!sensorSubList.contains(sensorList.get(col))) {
+				sensorSubList.add(sensorList.get(col));
+			}
+			printSensorSet (row -1, col); //this row's (target's) proper sensor was found. 
+		}
+		else if (col == sensorList.size()) {//means we are looking at last column, and correct index wasn't already found
+			System.out.println("YOU MESSED UP BRO"); //just an error catcher, don't really need these two lines of code
+			//return sensorSubList;
+		}
+		else printSensorSet(row, col + 1); //repeat on the next index over in the previous row
+		//return null;
+	}
+	
 	
 	public boolean isThereCover (ArrayList<Sensor> partialSensorList) {
 		ArrayList<Target> partialTargetList = new ArrayList<Target>();

@@ -25,7 +25,6 @@ public class DynamicSensor
 			scan = new Scanner(myFile);
 			while(scan.hasNext())
 			{
-
 				line=scan.nextLine();
 				parseLine(line);
 			}

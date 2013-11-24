@@ -11,6 +11,7 @@ public class DynamicSensor
 	static ArrayList<Sensor> sensorList = new ArrayList<Sensor>();
 	static ArrayList<Sensor> sensorSubList = new ArrayList<Sensor>();
 	double finalMinCost;
+	static String finalSensorList = "";
 	static double[][] m;
 	
 	/**
@@ -107,9 +108,10 @@ public class DynamicSensor
 		
 		System.out.println("The minimum cost is: " + cost);
 		printSensorSet(targetList.size(), finalCol); 
-		for(Sensor s:sensorSubList) {
-			System.out.print("S" + s);
-		}
+		//for(Sensor s:sensorSubList) {
+			//System.out.print("S" + s);
+		//}
+		System.out.println(finalSensorList);
 		
 	}
 	
@@ -127,6 +129,7 @@ public class DynamicSensor
 		return min;
 	}
 	public static void printSensorSet (int row, int col) { //we call this function using the last row, first column 
+		
 		if (row == 0) { //in order to ignore first row
 
 			return;// sensorSubList;
@@ -140,6 +143,8 @@ public class DynamicSensor
 				//check to see if this sensor is already in the sublist
 				if (!sensorSubList.contains(sensorList.get(col-1))) {
 					sensorSubList.add(sensorList.get(col-1));
+					finalSensorList = finalSensorList + "S" + (col -1) + " ";
+					
 				}
 				printSensorSet (row - 1, j); //this row's (target's) proper sensor was found. 
 			}

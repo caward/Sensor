@@ -18,7 +18,7 @@ public class DynamicSensor
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		File myFile = new File("Sensor.txt");
+		File myFile = new File("testFile.txt");
 		Scanner scan;
 		String line;
 		try {

@@ -107,7 +107,7 @@ public class DynamicSensor
 ////End Corey's guess		
 		
 		System.out.println("The minimum cost is: " + cost);
-		printSensorSet(targetList.size() + 1, finalCol); 
+		printSensorSet(targetList.size(), finalCol); 
 		for(Sensor s:sensorSubList) {
 			System.out.print("S" + s);
 		}
@@ -129,12 +129,12 @@ public class DynamicSensor
 	}
 	public static void printSensorSet (int row, int col) { //we call this function using the last row, first column 
 		if (row == 0) { //in order to ignore first row
-			//return sensorSubList;
+			return;// sensorSubList;
 		}
 		//will recurse until matching index is found in previous row. Could also be done with a for loop
-		if (m[row][col] == m[row - 1][col] + sensorList.get(col).getCost() ) { //this means the proper one was found
+		if (m[row][col] == m[row - 1][col] + sensorList.get(col-1).getCost() ) { //this means the proper one was found
 			//check to see if this sensor is already in the sublist
-			if (!sensorSubList.contains(sensorList.get(col))) {
+			if (!sensorSubList.contains(sensorList.get(col-1))) {
 				sensorSubList.add(sensorList.get(col));
 			}
 			printSensorSet (row -1, col); //this row's (target's) proper sensor was found. 

@@ -38,9 +38,9 @@ public class DynamicSensor
 //Begin Corey's guess		
 		int sList = 3;//sensorList.size();
 		int tList = 3;//targetList.size();
-//		//create matrix with two additional columns and one additional row
+//		//create matrix with two additional columns and one additional row to account for edge cases
 //		m = new double[tList+1][sList+2];
-//		//fill top row with 0
+//		//fill top row with 0 as to not affect sum
 //		for(int col=1; col<=sList;col++)
 //		{
 //			m[0][col]=0.0;
@@ -74,12 +74,13 @@ public class DynamicSensor
 			{
 				if(m[row-1][col] != m[row][col])
 				{
+					//Adds minimum of previous row to this cell
 					m[row][col] = m[row][col] + min(row,col);//recurrence
 				}
 				
 			}
 		}
-		
+		//Iterates through last row to find minimum cost
 		double cost = 1500.0;
 		
 		for (int col = 1; col<=sList;col++)
@@ -105,7 +106,7 @@ public class DynamicSensor
 		}
 	}
 	
-	//increments through the above row to find the min
+	//increments through the above row to find the minimum value
 	public static double min(int row, int col)
 	{
 		double min = 16000.0;
@@ -139,7 +140,7 @@ public class DynamicSensor
 		//Do this by comparing partialTargetList.size and targetList.size
 		//return boolean answer
 	}
-	
+	//Parses file and creates sensor object and target object
 	private static void parseLine(String line)
 	{
 		
@@ -163,7 +164,7 @@ public class DynamicSensor
 	}
 	
 	
-	
+	//Calculates distance between target and Sensor and returns true if <= 1
 	private static boolean distance(Target t, Sensor s)
 	{
 		double tx = t.x;

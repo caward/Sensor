@@ -17,8 +17,9 @@ public class DynamicSensor
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args)
+	{
+		// Reads file from testFile
 		File myFile = new File("testFile.txt");
 		Scanner scan;
 		String line;
@@ -30,11 +31,10 @@ public class DynamicSensor
 				parseLine(line);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
+		//Stores target into sensor's target list is distance is <=1
 		for(Sensor s:sensorList)
 		{
 			for(Target t:targetList)
@@ -60,14 +60,14 @@ public class DynamicSensor
 		{
 			m[0][col]=0.0;
 		}
-		//fill first and last row with big numbers
+		//fill first and last row with big numbers to add padding for edge cases
 		for(int row=1; row<=tList;row++)
 		{
 			m[row][0]=15000.0;
 			m[row][sList+1]=15000.0;
 		}
 		
-		// Fill matrix with weights  
+		// Fill matrix with weights. Rows represent target and column represents sensor  
 		for(int row = 1; row<=tList;row++)
 		{
 			for(int col = 1; col<=sList;col++)
@@ -77,7 +77,7 @@ public class DynamicSensor
 					m[row][col] = sensorList.get(col-1).cost;
 				}else
 				{
-					m[row][col] = 1500.0;// huge number that would never be chosen
+					m[row][col] = 1500.0;// if sensor does not cover target add large number
 				}
 			}
 		}

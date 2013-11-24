@@ -22,21 +22,21 @@ public class DynamicSensor
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		File myFile = new File("Sensor.txt");
-//		Scanner scan;
-//		String line;
-//		try {
-//			scan = new Scanner(myFile);
-//			while(scan.hasNext())
-//			{
-//				line=scan.nextLine();
-//				parseLine(line);
-//			}
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
+		File myFile = new File("Sensor.txt");
+		Scanner scan;
+		String line;
+		try {
+			scan = new Scanner(myFile);
+			while(scan.hasNext())
+			{
+				line=scan.nextLine();
+				parseLine(line);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		for(Sensor s:sensorList)
 		{
@@ -48,37 +48,39 @@ public class DynamicSensor
 				}
 			}
 		}
+		
+		
 //Begin Corey's guess		
-		int sList = 3;//sensorList.size();
-		int tList = 3;//targetList.size();
-//		//create matrix with two additional columns and one additional row to account for edge cases
-//		m = new double[tList+1][sList+2];
-//		//fill top row with 0 as to not affect sum
-//		for(int col=1; col<=sList;col++)
-//		{
-//			m[0][col]=0.0;
-//		}
-//		//fill first and last row with big numbers
-//		for(int row=1; row<=tList;row++)
-//		{
-//			m[row][0]=15000.0;
-//			m[row][sList+1]=15000.0;
-//		}
-//		
-//		// Fill matrix with weights  
-//		for(int row = 1; row<=tList;row++)
-//		{
-//			for(int col = 1; col<=sList;col++)
-//			{
-//				if(distance(targetList.get(row-1),sensorList.get(col-1)))
-//				{
-//					m[row][col] = sensorList.get(col-1).cost;
-//				}else
-//				{
-//					m[row][col] = 1500.0;// huge number that would never be chosen
-//				}
-//			}
-//		}
+		int sList = sensorList.size();
+		int tList = targetList.size();
+		//create matrix with two additional columns and one additional row to account for edge cases
+		m = new double[tList+1][sList+2];
+		//fill top row with 0 as to not affect sum
+		for(int col=1; col<=sList;col++)
+		{
+			m[0][col]=0.0;
+		}
+		//fill first and last row with big numbers
+		for(int row=1; row<=tList;row++)
+		{
+			m[row][0]=15000.0;
+			m[row][sList+1]=15000.0;
+		}
+		
+		// Fill matrix with weights  
+		for(int row = 1; row<=tList;row++)
+		{
+			for(int col = 1; col<=sList;col++)
+			{
+				if(distance(targetList.get(row-1),sensorList.get(col-1)))
+				{
+					m[row][col] = sensorList.get(col-1).cost;
+				}else
+				{
+					m[row][col] = 1500.0;// huge number that would never be chosen
+				}
+			}
+		}
 		
 		
 		for(int row = 1; row <= tList ;row++)
@@ -88,7 +90,7 @@ public class DynamicSensor
 				if(m[row-1][col] != m[row][col]) // same as if (S1 covers only T1 or T2)
 				{
 					//Adds minimum of previous row to this cell
-					m[row][col] = m[row][col] + min(row,col);//recurrence
+					m[row][col] = m[row][col] + min(row);//recurrence
 				}
 				
 			}
@@ -115,10 +117,10 @@ public class DynamicSensor
 	}
 	
 	//increments through the above row to find the minimum value
-	public static double min(int row, int col)
+	public static double min(int row)
 	{
 		double min = 16000.0;
-		for(int i = 1; i<=3;i++)//col-1 iterates through columns here
+		for(int i = 1; i<=sensorList.size();i++)//iterates through columns here
 		{
 			min= m[row-1][i] < min ? m[row-1][i]: min;
 			if(min == 0.0) {
@@ -135,10 +137,10 @@ public class DynamicSensor
 		//will recurse until matching index is found in previous row. Could also be done with a for loop
 		int j;
 		for (j = 1; j <= sensorList.size(); j++ ) {
-			if (m[row][col] == m[row - 1][j] + sensorList.get(j).getCost() ) { //this means the proper one was found
+			if (m[row][col] == m[row - 1][j] + sensorList.get(col-1).getCost() ) { //this means the proper one was found
 				//check to see if this sensor is already in the sublist
-				if (!sensorSubList.contains(sensorList.get(j))) {
-					sensorSubList.add(sensorList.get(j));
+				if (!sensorSubList.contains(sensorList.get(col-1))) {
+					sensorSubList.add(sensorList.get(col-1));
 				}
 				printSensorSet (row - 1, j); //this row's (target's) proper sensor was found. 
 			}
@@ -166,7 +168,7 @@ public class DynamicSensor
 	}
 	
 	
-	public boolean isThereCover (ArrayList<Sensor> partialSensorList) {
+	public static boolean isThereCover (ArrayList<Sensor> partialSensorList) {
 		ArrayList<Target> partialTargetList = new ArrayList<Target>();
 		for (Sensor s: partialSensorList) {
 			for (Target t: s.targets) {
